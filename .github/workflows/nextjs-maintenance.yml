@@ -8,7 +8,7 @@ on:
       - package.json
       - package-lock.json
       - .github/workflows/nextjs-maintenance.yml
-      - app/api/vector_stores/add_file/route.ts
+      - app/api/vector_stores/**
   pull_request:
     branches:
       - main
