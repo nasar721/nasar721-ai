@@ -1,10 +1,14 @@
 import OpenAI from "openai";
-const openai = new OpenAI();
 
 export async function POST(request: Request) {
-  const { fileObject } = await request.json();
-
   try {
+    const apiKey = process.env.OPENAI_API_KEY;
+    if (!apiKey) {
+      return new Response("Server configuration error", { status: 500 });
+    }
+
+    const openai = new OpenAI({ apiKey });
+    const { fileObject } = await request.json();
     const fileBuffer = Buffer.from(fileObject.content, "base64");
     const fileBlob = new Blob([fileBuffer], {
       type: "application/octet-stream",

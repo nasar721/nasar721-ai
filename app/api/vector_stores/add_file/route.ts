@@ -1,10 +1,14 @@
 import OpenAI from "openai";
 
-const openai = new OpenAI();
-
 export async function POST(request: Request) {
-  const { vectorStoreId, fileId } = await request.json();
   try {
+    const apiKey = process.env.OPENAI_API_KEY;
+    if (!apiKey) {
+      return new Response("Server configuration error", { status: 500 });
+    }
+
+    const openai = new OpenAI({ apiKey });
+    const { vectorStoreId, fileId } = await request.json();
     const vectorStore = await openai.vectorStores.files.create(
       vectorStoreId,
       {
